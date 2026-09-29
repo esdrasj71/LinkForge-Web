@@ -79,9 +79,14 @@ import { LinkService, Link } from '../../services/link.service';
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let link">
-            <button mat-icon-button color="warn" (click)="deleteLink(link.id)" aria-label="Delete link">
-              <mat-icon>delete</mat-icon>
-            </button>
+            <div class="row-actions">
+              <a mat-icon-button [routerLink]="['/links', link.id, 'edit']" aria-label="Edit link">
+                <mat-icon>edit</mat-icon>
+              </a>
+              <button mat-icon-button color="warn" (click)="deleteLink(link.id)" aria-label="Delete link">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
           </td>
         </ng-container>
 
@@ -203,6 +208,12 @@ import { LinkService, Link } from '../../services/link.service';
       display: flex;
       justify-content: center;
       padding: 3rem;
+    }
+    .row-actions {
+      display: flex;
+      gap: 0.25rem;
+      align-items: center;
+      justify-content: flex-end;
     }
     .empty {
       text-align: center;

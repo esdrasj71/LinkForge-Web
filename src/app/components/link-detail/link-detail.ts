@@ -36,14 +36,23 @@ import { environment } from '../../../environments/environment';
             <span class="code-label">Short Code</span>
             <div class="code-value">/{{ analytics.shortCode }}</div>
           </div>
-          <a
-            mat-stroked-button
-            [href]="environment.apiUrl + '/' + analytics.shortCode"
-            target="_blank"
-            rel="noopener noreferrer">
-            <mat-icon>open_in_new</mat-icon>
-            Visit
-          </a>
+          <div class="header-actions">
+            <a
+              mat-stroked-button
+              [href]="environment.apiUrl + '/' + analytics.shortCode"
+              target="_blank"
+              rel="noopener noreferrer">
+              <mat-icon>open_in_new</mat-icon>
+              Visit
+            </a>
+            <a
+              mat-flat-button
+              color="primary"
+              [routerLink]="['/links', analytics.linkId, 'edit']">
+              <mat-icon>edit</mat-icon>
+              Edit
+            </a>
+          </div>
         </div>
 
         <div class="stats-grid">
@@ -101,6 +110,11 @@ import { environment } from '../../../environments/environment';
     .back-link {
       margin-bottom: 1rem;
       color: #64748b;
+    }
+    .header-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
     }
     .detail-header {
       display: flex;

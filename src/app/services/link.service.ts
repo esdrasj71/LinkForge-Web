@@ -56,9 +56,12 @@ export class LinkService {
     return this.http.post<Link>(this.baseUrl, { originalUrl });
   }
 
-  update(id: number, originalUrl?: string, expiresAt?: string): Observable<Link> {
-    return this.http.put<Link>(`${this.baseUrl}/${id}`, { originalUrl, expiresAt });
-  }
+ update(id: number, originalUrl?: string, expiresAt?: string | null): Observable<Link> {
+  const body: any = {};
+  if (originalUrl !== undefined) body.originalUrl = originalUrl;
+  if (expiresAt !== undefined) body.expiresAt = expiresAt;
+  return this.http.put<Link>(`${this.baseUrl}/${id}`, body);
+}
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
