@@ -4,8 +4,9 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
+import { BarChartModule, Color, ScaleType } from '@swimlane/ngx-charts';
 import { LinkService, Analytics } from '../../services/link.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-link-detail',
@@ -16,7 +17,7 @@ import { LinkService, Analytics } from '../../services/link.service';
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    NgxChartsModule
+    BarChartModule
   ],
   template: `
     <div class="container">
@@ -37,7 +38,7 @@ import { LinkService, Analytics } from '../../services/link.service';
           </div>
           <a
             mat-stroked-button
-            [href]="'https://linkforge-api.onrender.com/' + analytics.shortCode"
+            [href]="environment.apiUrl + '/' + analytics.shortCode"
             target="_blank"
             rel="noopener noreferrer">
             <mat-icon>open_in_new</mat-icon>
@@ -65,20 +66,17 @@ import { LinkService, Analytics } from '../../services/link.service';
           <div *ngIf="chartData[0].series.length === 0" class="empty-chart">
             No clicks yet. Share your link to see activity here.
           </div>
-          <ngx-charts-area-chart
+          <ngx-charts-bar-vertical
             *ngIf="chartData[0].series.length > 0"
-            [results]="chartData"
+            [results]="chartData[0].series"
             [scheme]="colorScheme"
             [xAxis]="true"
             [yAxis]="true"
             [showXAxisLabel]="false"
             [showYAxisLabel]="false"
-            [autoScale]="true"
-            [gradient]="true"
-            [animations]="true"
-            [roundDomains]="true"
-            [tooltipDisabled]="false">
-          </ngx-charts-area-chart>
+            [showDataLabel]="true"
+            [roundDomains]="true">
+          </ngx-charts-bar-vertical>
         </div>
 
         <h2>Top Referrers</h2>
@@ -213,6 +211,8 @@ import { LinkService, Analytics } from '../../services/link.service';
   `]
 })
 export class LinkDetail implements OnInit {
+  protected readonly environment = environment;
+
   analytics?: Analytics;
   chartData: any[] = [{ name: 'Clicks', series: [] }];
   loading = true;
